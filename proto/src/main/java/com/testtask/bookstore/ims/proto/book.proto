@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package com.testtask.bookstore.ims.proto
+
+option java_multiple_files = true;
+option java_package = "com.testtask.bookstore.ims.proto";
+
+message CreateBookRequest {
+    string title = 1;
+    string author = 2;
+}
+
+message FindBookByParamRequest {
+    string parameter = 1;
+}
+
+message BookResponse {
+    string id = 1;
+    string title = 2;
+    string author = 3;
+    optional string isbn = 3;
+    optional int32 quantity = 4;
+    optional string description = 5; 
+}
+
+service BookManagementService {
+    rpc createBook(CreateBookRequest) returns (BookResponse);
+}

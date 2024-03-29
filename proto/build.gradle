@@ -1,0 +1,73 @@
+plugins {
+	id 'java'
+	id 'com.google.protobuf' version '0.9.4'
+	id 'eclipse'
+}
+
+group = 'com.testtask'
+version = '0.0.1-SNAPSHOT'
+
+def reactiveGrpcVersion = '1.2.4'
+def grpcVersion = '1.54.0'
+def protobufVersion = '4.26.0'
+//def protobufVersion = '3.22.2'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
+    implementation "io.grpc:grpc-stub:${grpcVersion}"
+    implementation "io.grpc:grpc-protobuf:${grpcVersion}"
+    implementation "com.salesforce.servicelibs:rxgrpc-stub:${reactiveGrpcVersion}"
+    implementation "com.salesforce.servicelibs:reactor-grpc-stub:${reactiveGrpcVersion}"
+    runtimeOnly 'com.google.protobuf:protobuf-gradle-plugin:0.9.4'
+    
+}
+
+protobuf {
+    protoc {
+        // The artifact spec for the Protobuf Compiler
+        artifact = "com.google.protobuf:protoc:${protobufVersion}"
+    }
+    clean {
+        delete protobuf.generatedFilesBaseDir
+    }
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+        }
+        rxgrpc {
+            artifact = "com.salesforce.servicelibs:rxgrpc:${reactiveGrpcVersion}"
+        }
+        reactor {
+            artifact = "com.salesforce.servicelibs:reactor-grpc:${reactiveGrpcVersion}"
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc { }
+            rxgrpc {}
+            reactor {}
+        }
+    }
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
