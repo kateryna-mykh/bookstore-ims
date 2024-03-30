@@ -1,3 +1,0 @@
-rootProject.name = 'bookstore-ims'
-include 'app'           
-include 'proto'
