@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
 package com.testtask.bookstore.ims.proto;
 
 option java_multiple_files = true;
@@ -10,8 +11,20 @@ message CreateBookRequest {
     string author = 2;
 }
 
-message FindBookByParamRequest {
-    string parameter = 1;
+message ParamsList {
+    repeated string values = 1;
+}
+message FindBookByParamsRequest {
+    map <string, ParamsList> requested_params = 1;
+}
+
+message FindByIdRequest{
+    string book_id = 1;
+}
+
+message BookUpdateResponse {
+    FindByIdRequest id = 1;
+    bool isUpdated = 2;
 }
 
 message BookResponse {
@@ -23,6 +36,20 @@ message BookResponse {
     optional string description = 6; 
 }
 
+message BooksListResponse {
+    repeated BookResponse books = 1;
+}
+
 service BookManagementService {
     rpc createBook(CreateBookRequest) returns (BookResponse);
+    
+    rpc update(FindByIdRequest) returns (BookUpdateResponse);
+    
+    rpc delete(FindByIdRequest) returns (google.protobuf.Empty);
+    
+    rpc getById(FindByIdRequest) returns (BookResponse);
+    
+    rpc getAllBooks(google.protobuf.Empty) returns (stream BooksListResponse);
+    
+    rpc findByParam(FindBookByParamsRequest) returns (stream BooksListResponse);
 }

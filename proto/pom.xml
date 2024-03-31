@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>proto</artifactId>
+    
     <properties>
         <grpc.version>1.62.2</grpc.version>
         <reactive.grcp.version>1.2.4</reactive.grcp.version>
