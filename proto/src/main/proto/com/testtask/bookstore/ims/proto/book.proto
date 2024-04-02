@@ -27,7 +27,7 @@ message BookUpdateResponse {
     bool isUpdated = 2;
 }
 
-message BookResponse {
+message BookFullObject {
     string id = 1;
     string title = 2;
     string author = 3;
@@ -36,20 +36,16 @@ message BookResponse {
     optional string description = 6; 
 }
 
-message BooksListResponse {
-    repeated BookResponse books = 1;
-}
-
 service BookManagementService {
-    rpc createBook(CreateBookRequest) returns (BookResponse);
+    rpc createBook(CreateBookRequest) returns (BookFullObject);
     
-    rpc update(FindByIdRequest) returns (BookUpdateResponse);
+    rpc update(BookFullObject) returns (BookUpdateResponse);
     
     rpc delete(FindByIdRequest) returns (google.protobuf.Empty);
     
-    rpc getById(FindByIdRequest) returns (BookResponse);
+    rpc getById(FindByIdRequest) returns (BookFullObject);
     
-    rpc getAllBooks(google.protobuf.Empty) returns (stream BooksListResponse);
+    rpc getAllBooks(google.protobuf.Empty) returns (stream BookFullObject);
     
-    rpc findByParam(FindBookByParamsRequest) returns (stream BooksListResponse);
+    rpc findByParam(FindBookByParamsRequest) returns (stream BookFullObject);
 }

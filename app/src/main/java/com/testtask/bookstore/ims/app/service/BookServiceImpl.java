@@ -1,12 +1,49 @@
 package com.testtask.bookstore.ims.app.service;
 
+import com.testtask.bookstore.ims.app.dto.BookRequestDto;
+import com.testtask.bookstore.ims.app.dto.BookResponseDto;
+import com.testtask.bookstore.ims.app.dto.BookUpdateResponseDto;
+import com.testtask.bookstore.ims.app.mapper.BookDtoEntityMapper;
 import com.testtask.bookstore.ims.app.repository.BookRepository;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 @Service
-public class BookServiceImpl {
+public class BookServiceImpl implements BookService {
     private final BookRepository repository;
+    private final BookDtoEntityMapper bookMapper;
 
+    @Override
+    public Mono<BookResponseDto> save(BookRequestDto bookDto) {
+        return repository.save(bookMapper.dtoToModel(bookDto)).map(bookMapper::modelToDto);
+    }
+
+    @Override
+    public Mono<BookResponseDto> findById(UUID id) {
+        return repository.findById(id).map(bookMapper::modelToDto);
+    }
+
+    @Override
+    public Flux<BookResponseDto> findAll() {
+        return repository.findAll().map(bookMapper::modelToDto);
+    }
+
+    @Override
+    public Mono<BookUpdateResponseDto> update(BookResponseDto bookDto) {
+        return repository.existsById(bookDto.id()).map(Boolean::booleanValue)
+                .doOnNext(v -> {
+                    if (v.booleanValue()) {
+                        repository.save(bookMapper.dtoWithIdToModel(bookDto));
+                    }
+                }).map(value -> bookMapper.toUpdatedDto(bookDto.id(), value));
+    }
+
+    @Override
+    public Mono<Void> deleteById(UUID id) {
+        return repository.deleteById(id);
+    }
 }
