@@ -1,8 +1,8 @@
 package com.testtask.bookstore.ims.app.mapper;
 
 import com.testtask.bookstore.ims.app.config.MapperConfig;
-import com.testtask.bookstore.ims.app.dto.BookRequestDto;
-import com.testtask.bookstore.ims.app.dto.BookResponseDto;
+import com.testtask.bookstore.ims.app.dto.CreateNewBookRequestDto;
+import com.testtask.bookstore.ims.app.dto.BookFullTransferDto;
 import com.testtask.bookstore.ims.app.dto.BookUpdateResponseDto;
 import com.testtask.bookstore.ims.proto.BookFullObject;
 import com.testtask.bookstore.ims.proto.BookUpdateResponse;
@@ -13,11 +13,11 @@ import org.mapstruct.Mapping;
 
 @Mapper(config = MapperConfig.class, imports = UUID.class)
 public interface BookDtoProtoMapper {
-    BookRequestDto protoCreateToDto(CreateBookRequest request);
+    CreateNewBookRequestDto protoCreateToDto(CreateBookRequest request);
     
-    BookFullObject dtoToProto(BookResponseDto dto);
+    BookFullObject dtoToProto(BookFullTransferDto dto);
     
-    BookResponseDto protoUpdateToDto(BookFullObject request);
+    BookFullTransferDto protoUpdateToDto(BookFullObject request);
     
     @Mapping(target="id.bookId", source="id")
     BookUpdateResponse dtoToUpdateProto(BookUpdateResponseDto dto);

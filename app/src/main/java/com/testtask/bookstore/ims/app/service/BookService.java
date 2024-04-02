@@ -1,20 +1,20 @@
 package com.testtask.bookstore.ims.app.service;
 
-import com.testtask.bookstore.ims.app.dto.BookRequestDto;
-import com.testtask.bookstore.ims.app.dto.BookResponseDto;
+import com.testtask.bookstore.ims.app.dto.CreateNewBookRequestDto;
+import com.testtask.bookstore.ims.app.dto.BookFullTransferDto;
 import com.testtask.bookstore.ims.app.dto.BookUpdateResponseDto;
 import java.util.UUID;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface BookService {
-    Mono<BookResponseDto> save(BookRequestDto bookDto);
+    Mono<BookFullTransferDto> save(CreateNewBookRequestDto bookDto);
 
-    Mono<BookResponseDto> findById(UUID id);
+    Mono<BookFullTransferDto> findById(UUID id);
 
-    Flux<BookResponseDto> findAll();
+    Flux<BookFullTransferDto> findAll();
 
-    Mono<BookUpdateResponseDto> update(BookResponseDto bookDto);
+    Mono<BookUpdateResponseDto> update(BookFullTransferDto bookDto);
 
     Mono<Void> deleteById(UUID id);
 }

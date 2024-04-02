@@ -1,7 +1,7 @@
 package com.testtask.bookstore.ims.app.service;
 
-import com.testtask.bookstore.ims.app.dto.BookRequestDto;
-import com.testtask.bookstore.ims.app.dto.BookResponseDto;
+import com.testtask.bookstore.ims.app.dto.CreateNewBookRequestDto;
+import com.testtask.bookstore.ims.app.dto.BookFullTransferDto;
 import com.testtask.bookstore.ims.app.dto.BookUpdateResponseDto;
 import com.testtask.bookstore.ims.app.mapper.BookDtoEntityMapper;
 import com.testtask.bookstore.ims.app.repository.BookRepository;
@@ -18,27 +18,27 @@ public class BookServiceImpl implements BookService {
     private final BookDtoEntityMapper bookMapper;
 
     @Override
-    public Mono<BookResponseDto> save(BookRequestDto bookDto) {
+    public Mono<BookFullTransferDto> save(CreateNewBookRequestDto bookDto) {
         return repository.save(bookMapper.dtoToModel(bookDto)).map(bookMapper::modelToDto);
     }
 
     @Override
-    public Mono<BookResponseDto> findById(UUID id) {
+    public Mono<BookFullTransferDto> findById(UUID id) {
         return repository.findById(id).map(bookMapper::modelToDto);
     }
 
     @Override
-    public Flux<BookResponseDto> findAll() {
+    public Flux<BookFullTransferDto> findAll() {
         return repository.findAll().map(bookMapper::modelToDto);
     }
 
     @Override
-    public Mono<BookUpdateResponseDto> update(BookResponseDto bookDto) {
+    public Mono<BookUpdateResponseDto> update(BookFullTransferDto bookDto) {
         return repository.existsById(bookDto.id()).map(Boolean::booleanValue)
                 .doOnNext(v -> {
                     if (v.booleanValue()) {
                         repository.save(bookMapper.dtoWithIdToModel(bookDto));
-                    }
+                        }
                 }).map(value -> bookMapper.toUpdatedDto(bookDto.id(), value));
     }
 
