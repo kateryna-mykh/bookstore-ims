@@ -23,34 +23,34 @@ public class GrpcBookService
 
     @Override
     public Mono<BookFullObject> createBook(Mono<CreateBookRequest> newBook) {
-        return newBook.map(book -> bookProtoMapper.protoCreateToDto(book))
-                .flatMap(bookDto -> bookService.save(bookDto))
-                .map(createdbook -> bookProtoMapper.dtoToProto(createdbook));
+        return newBook.map(bookProtoMapper::protoCreateToDto)
+                .flatMap(bookService::save)
+                .map(bookProtoMapper::dtoToProto);
     }
 
     @Override
     public Mono<BookUpdateResponse> update(Mono<BookFullObject> book) {
-        return book.map(b -> bookProtoMapper.protoUpdateToDto(b))
-                .flatMap(bookDto -> bookService.update(bookDto))
-                .map(updatedInfo -> bookProtoMapper.dtoToUpdateProto(updatedInfo));
+        return book.map(bookProtoMapper::protoUpdateToDto)
+                .flatMap(bookService::update)
+                .map(bookProtoMapper::dtoToUpdateProto);
     }
 
     @Override
     public Mono<Empty> delete(Mono<FindByIdRequest> bookId) {
         bookId.map(id -> UUID.fromString(id.getBookId()))
-                .flatMap(uuid -> bookService.deleteById(uuid));
+        .flatMap(bookService::deleteById);
         return Mono.empty();
     }
 
     @Override
     public Mono<BookFullObject> getById(Mono<FindByIdRequest> bookId) {
         return bookId.map(id -> UUID.fromString(id.getBookId()))
-                .flatMap(uuid -> bookService.findById(uuid))
-                .map(foundBook -> bookProtoMapper.dtoToProto(foundBook));
+                .flatMap(bookService::findById)
+                .map(bookProtoMapper::dtoToProto);
     }
 
     @Override
     public Flux<BookFullObject> getAllBooks(Mono<Empty> mockedObject) {
-        return bookService.findAll().map(foundBooks -> bookProtoMapper.dtoToProto(foundBooks));
+        return bookService.findAll().map(bookProtoMapper::dtoToProto);
     }
 }
