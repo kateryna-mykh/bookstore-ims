@@ -1,8 +1,8 @@
 package com.testtask.bookstore.ims.app.service;
 
-import com.testtask.bookstore.ims.app.dto.CreateNewBookRequestDto;
 import com.testtask.bookstore.ims.app.dto.BookFullTransferDto;
 import com.testtask.bookstore.ims.app.dto.BookUpdateResponseDto;
+import com.testtask.bookstore.ims.app.dto.CreateNewBookRequestDto;
 import com.testtask.bookstore.ims.app.mapper.BookDtoEntityMapper;
 import com.testtask.bookstore.ims.app.repository.BookRepository;
 import java.util.UUID;
@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 @Service
-public class BookServiceImpl implements BookService {
+public class BookServiceImpl implements CreateUpdateBook, FindBook, DeleteBook {
     private final BookRepository repository;
     private final BookDtoEntityMapper bookMapper;
 
