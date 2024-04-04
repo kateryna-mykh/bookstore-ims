@@ -41,6 +41,5 @@ services:
         "spring.r2dbc.url" : "r2dbc:postgresql://postgres:$DB_DOCKER_PORT/$POSTGRES_DB?serverTimezone=UTC",
         "spring.r2dbc.username" : "$POSTGRES_USER",
         "spring.r2dbc.password" : "$POSTGRES_PASSWORD"}'
-      JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
 volumes:
   db-data:

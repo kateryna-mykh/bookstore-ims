@@ -38,7 +38,7 @@ public class GrpcBookService
     @Override
     public Mono<Empty> delete(Mono<FindByIdRequest> bookId) {
         bookId.map(id -> UUID.fromString(id.getBookId()))
-        .flatMap(bookService::deleteById);
+        .flatMap(bookService::deleteById).subscribe();
         return Mono.just(Empty.newBuilder().build());
     }
 
