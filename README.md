@@ -24,6 +24,6 @@ docker-compose up --build
 
 ## Usage Example
 
-![create method]()  
-![update method]()  
-![get all method]()  
+![create method](https://github.com/kateryna-mykh/bookstore-ims/blob/main/app/src/main/resources/img/postman_test-create-book.PNG)  
+![update method](https://github.com/kateryna-mykh/bookstore-ims/blob/main/app/src/main/resources/img/postman_test-is-updated.PNG)  
+![get all method](https://github.com/kateryna-mykh/bookstore-ims/blob/main/app/src/main/resources/img/postman_test-get-all.PNG)  
