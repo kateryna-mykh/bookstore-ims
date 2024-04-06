@@ -66,7 +66,12 @@
             <artifactId>reactor-test</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-testing</artifactId>
+            <version>1.62.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
